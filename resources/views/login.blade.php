@@ -9,12 +9,10 @@
 <body>
     @include('navegacion')
     <h1>Login aprendible</h1>
-    
-    <form action="" method="POST">
+    {{--Sirve para imprimir la sesion de usuario activa--}}
+    <pre>{{Auth::user()}}</pre>
+    <form action="{{url('/login')}}" method="POST">
         @csrf
-        <label for="name">Nombre de usuario:</label>
-        <input type="text" name="name">
-        <br>
         <label for="email">Correo electronico</label>
         <input type="email" name="email">
         <br>
