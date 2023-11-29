@@ -7,3 +7,7 @@
 <a href="{{url('/dashboard')}}">Dashboard</a>
 <a href="#">Logout</a>
 @endguest
+@if(session('status'))
+    <br>
+    {{ session('status') }}
+@endif

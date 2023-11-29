@@ -1,8 +1,9 @@
 <?php
 
+use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Validation\ValidationException as ValidationValidationException;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,13 +20,26 @@ Route::view('/dashboard', 'dashboard')->middleware('auth');
 
 ///para retornar el objeto con sus propiedades y valores del formulario se usa : request()
 Route::post('/login', function () {
-    $credential = request()->only('email', 'password');
+
+    ///sirve para validar los campos de nuestro formulario
+    $credential = request()->validate([
+        'email' => ['required', 'email', 'string'],
+        'password' => ['required', 'string']
+    ]);
+
+
+
+
     if (Auth::attempt($credential)) {
         request()->session()->regenerate();
-        return redirect('dashboard');
+        return redirect('dashboard')->with('status', 'Estas logueado');;
     }
+    //redirecciona al login
+    //el with se utiliza para mandar un mensaje
     return redirect('login');
     // dump($credential) imprimir las variable
+
+
 });
 
 //request()->only('email','password')

@@ -9,15 +9,37 @@
 <body>
     @include('navegacion')
     <h1>Login aprendible</h1>
-    {{--Sirve para imprimir la sesion de usuario activa--}}
+    
+    {{--sirve para validar si existe un error se agrega el elemento--}}
+    @if ($errors->any())
+    <ul>
+{{--Sirve para imprimir los errores validados por el formulario--}}
+@foreach ($errors->all() as $error)
+    <li>
+            {{$error}}
+    </li>
+@endforeach
+</ul>
+@endif    
+
+{{--Sirve para imprimir la sesion de usuario activa--}}
     <pre>{{Auth::user()}}</pre>
     <form action="{{url('/login')}}" method="POST">
         @csrf
+      
         <label for="email">Correo electronico</label>
-        <input type="email" name="email">
+        <input type="email" name="email" value="{{old('email')}}">
+     {{--Imprime el mensaje de error del campo en especifico--}}
+    @error('email')
+    {{$message}}
+@enderror
         <br>
+        
         <label for="password">Contraseña</label>
-        <input type="password" name="password">
+        <input type="password" name="password" >
+        @error('password')
+        {{$message}}
+    @enderror
         <br>
         <input type="submit" value="Loguearse">
     </form>
